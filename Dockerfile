@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-tokenizer \
     php-zip \
-    php-pgsql
+    php-curl \
+    php-pgsql \
+    unzip
 
 COPY server/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY server/apache2.conf /etc/apache2/apache2.conf
@@ -23,7 +25,8 @@ WORKDIR /var/www
 COPY app/ .
 
 # Before running change path to vendor/autoload in public/index.php, artisan, phpunit.xml
-RUN COMPOSER_VENDOR_DIR="/var/vendor" composer install --ignore-platform-req=ext-curl
+
+RUN COMPOSER_VENDOR_DIR="/var/vendor" composer install
 
 RUN a2enmod rewrite && service apache2 restart
 
