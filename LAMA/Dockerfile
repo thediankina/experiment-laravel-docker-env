@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     php-tokenizer \
     php-zip \
     php-curl \
-    php-pgsql \
+    php-mysql \
     unzip
 
 COPY server/000-default.conf /etc/apache2/sites-enabled/000-default.conf
@@ -23,8 +23,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 COPY app/ .
-
-# Before running change path to vendor/autoload in public/index.php, artisan, phpunit.xml
 
 RUN COMPOSER_VENDOR_DIR="/var/vendor" composer install
 
